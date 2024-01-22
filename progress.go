@@ -24,7 +24,7 @@ func (p *Progress) progress(total, current int) {
 }
 
 func (p *Progress) end() {
-	fmt.Print(strings.Repeat("#", (40-p.status)) + "]")
+	fmt.Println(strings.Repeat("#", (40-p.status)) + "]")
 	p.status = 0
 }
 
@@ -57,7 +57,6 @@ func (i *IndefiniteLoadingBar) progress() {
 
 func (i *IndefiniteLoadingBar) end() {
 	i.finish = true
-	fmt.Println()
 	fmt.Println()
 }
 
