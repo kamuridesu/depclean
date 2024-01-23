@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -33,6 +34,7 @@ type IndefiniteLoadingBar struct {
 	direction int
 	position  int
 	finish    bool
+	mu        sync.Mutex
 }
 
 func NewIndefiniteLoadingBar() *IndefiniteLoadingBar {
@@ -56,13 +58,18 @@ func (i *IndefiniteLoadingBar) progress() {
 }
 
 func (i *IndefiniteLoadingBar) end() {
+	i.mu.Lock()
+	defer i.mu.Unlock()
 	i.finish = true
 	fmt.Println()
 }
 
 func (i *IndefiniteLoadingBar) start() {
 	for {
-		if i.finish {
+		i.mu.Lock()
+		finish := i.finish
+		i.mu.Unlock()
+		if finish {
 			break
 		}
 		i.progress()

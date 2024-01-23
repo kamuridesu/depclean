@@ -6,12 +6,17 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 )
 
 type PruneData struct {
 	Paths []string
 	Size  string
+}
+
+func (p *PruneData) Equals(other *PruneData) bool {
+	return p.Size == other.Size && reflect.DeepEqual(p.Paths, other.Paths)
 }
 
 func formatSize(number int) string {

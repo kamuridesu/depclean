@@ -11,7 +11,7 @@ var (
 	AutoPrune *bool
 )
 
-func init() {
+func __init() {
 	AutoPrune = flag.Bool("auto-prune", false, "auto-prune: non interactive deletes all dependency folder")
 	flag.Parse()
 	path := flag.Args()
@@ -21,6 +21,7 @@ func init() {
 }
 
 func main() {
+	__init()
 	paths := MapAllPaths(RootPath)
 	if len(paths.Paths) < 1 {
 		return
