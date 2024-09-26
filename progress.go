@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"strings"
 	"sync"
 	"time"
@@ -19,7 +18,7 @@ func startProgress(title string) *Progress {
 
 func (p *Progress) progress(total, current int) {
 	quantity := (100 * current) / total
-	x := int(math.Floor(float64(quantity * 40 / 100)))
+	x := int(float64(quantity * 40 / 100))
 	fmt.Print(strings.Repeat("#", x-p.status))
 	p.status = x
 }

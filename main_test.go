@@ -13,19 +13,19 @@ const (
 )
 
 func CreateMockArchive() error {
-	err := os.MkdirAll(MockDir, 0644)
+	err := os.MkdirAll(MockDir, 0777)
 	if err != nil {
 		return fmt.Errorf("error creating mock folder")
 	}
-	err = os.MkdirAll(MockDir+"/node_modules", 0644)
+	err = os.MkdirAll(MockDir+"/node_modules", 0777)
 	if err != nil {
 		return fmt.Errorf("error creating mock folder")
 	}
-	err = os.WriteFile(MockFile, []byte("test"), 0644)
+	err = os.WriteFile(MockFile, []byte("test"), 0777)
 	if err != nil {
 		return fmt.Errorf("error creating mock file")
 	}
-	err = os.WriteFile(MockDir+"/node_modules/testfile", []byte("test"), 0644)
+	err = os.WriteFile(MockDir+"/node_modules/testfile", []byte("test"), 0777)
 	if err != nil {
 		return fmt.Errorf("error creating mock file")
 	}
@@ -53,7 +53,6 @@ func TestRemover_GetTotalSize(t *testing.T) {
 	defer DeleteMockArchive()
 	expected := 4
 	got := GetTotalSize(MockFile)
-
 	if got != expected {
 		t.Errorf("expected %v, got %v", expected, got)
 	}
@@ -73,7 +72,7 @@ func TestRemover_MapAllPaths(t *testing.T) {
 	CreateMockArchive()
 	defer DeleteMockArchive()
 	got := MapAllPaths(".")
-	expected := *&PruneData{
+	expected := PruneData{
 		Size:  "4.0B",
 		Paths: []string{fmt.Sprintf("mockdir%snode_modules", string(os.PathSeparator))},
 	}

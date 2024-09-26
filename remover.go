@@ -57,7 +57,7 @@ func MapAllPaths(root string) *PruneData {
 	paths := []string{}
 	size := 0
 	filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
-		if strings.Contains(path, "node_modules") || strings.Contains(path, "venv") {
+		if strings.Contains(path, "node_modules") || strings.Contains(path, "venv") || strings.Contains(path, ".venv") {
 			if err != nil {
 				panic(err)
 			}
