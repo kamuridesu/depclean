@@ -51,13 +51,28 @@ func GetTotalSize(root string) int {
 	return size
 }
 
+func shouldRemovePath(path string) bool {
+	paths := []string{
+		"node_modules",
+		"venv",
+		".venv",
+		".env",
+	}
+	for _, p := range paths {
+		if strings.Contains(path, p) {
+			return true
+		}
+	}
+	return false
+}
+
 func MapAllPaths(root string) *PruneData {
 	bar := NewIndefiniteLoadingBar()
 	go bar.start()
 	paths := []string{}
 	size := 0
 	filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
-		if strings.Contains(path, "node_modules") || strings.Contains(path, "venv") || strings.Contains(path, ".venv") {
+		if shouldRemovePath(path) {
 			if err != nil {
 				panic(err)
 			}
